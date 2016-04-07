@@ -5,7 +5,7 @@ defmodule Words do
   Words are compared case-insensitively.
   """
 
-  @remove_illegal_chars_regex ~r/,*:*[^A-Za-z,\s,1-9,-]*/
+  @remove_illegal_chars_regex ~r/,*:*[^A-Za-zö\s1-9-]*/
   @replace_underscores_regex ~r/\_/
 
   @doc """
