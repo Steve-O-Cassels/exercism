@@ -4,41 +4,34 @@ defmodule Acronym do
   "This is a string" => "TIAS"
   """
 
-  @match_words_title_and_lower ~r/[A-Z][a-z]*|[a-z]+/
+  @not_lower_case_regex ~r/[^A-Z]/u
 
   @spec abbreviate(String.t()) :: String.t()
   def abbreviate(words) do
     words
-    |> split_on_title_case
     |> words_to_word_list
-    |> word_list_to_char_list
-    |> pick_first_letter
-    |> char_list_to_string
-    |> String.upcase
+    |> upper_case_first_letter_of_words
+    |> remove_lower_case_letters
   end
 
-  defp split_on_title_case(words) do
-    String.split(words, @match_words_title_and_lower)
+  defp upper_case_first_letter_of_words(word_list) do
+    Enum.into(word_list, [], fn(word) -> first_char_to_uppercase(word) end)
   end
 
-  defp words_to_word_list(words) do
+  defp first_char_to_uppercase(word) do
+    code_points = String.codepoints(word)
+    first = List.first(code_points)
+    code_points
+    |> List.replace_at(0, String.upcase(first))
+    |> to_string
+  end
+
+  def remove_lower_case_letters(word_list) do
+    Enum.into(word_list, [], fn(word) -> Regex.replace(@not_lower_case_regex, word, "") end)
+    |> to_string
+  end
+
+  def words_to_word_list(words) do
     ~w(#{words})
   end
-
-  defp word_list_to_char_list(word_list) do
-    Enum.into(word_list, [], fn w -> String.to_char_list(w) end)
-    #or
-    # Atom.to_char_list(:w)
-  end
-
-  defp pick_first_letter(char_list) do
-    Enum.into(char_list, [], fn c -> List.first(c) end)
-  end
-
-  defp char_list_to_string(char_list) do
-    ~s(#{char_list})
-    # or
-    # to_string char_list
-  end
-
 end
