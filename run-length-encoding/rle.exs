@@ -8,43 +8,49 @@ defmodule RunLengthEncoder do
   """
   @spec encode(String.t) :: String.t
   def encode(string) do
-    cond do
-      encode_string?(string) ->
-        encode_string(string)
-      true ->
-        return_empty_string
-    end
+    split_to_constituent_letters(string)
+    |> build_encoding
   end
 
   @spec decode(String.t) :: String.t
   def decode(string) do
-
+    split_to_constituent_encodings(string)
+    |> build_decoding
   end
 
-  defp encode_string?(string) do
-    String.strip(string)
-    |> String.valid_character?()
+  defp split_to_constituent_letters(string) do
+    capture_repeated_chars = ~r{(.)\1*}
+    Regex.scan(capture_repeated_chars, string)
   end
 
-  defp return_empty_string() do
+  defp split_to_constituent_encodings(string) do
+    capture_encoded_letter = ~r/(\d+)([A-Z]{1})/
+    Regex.scan(capture_encoded_letter,string)
+  end
+
+  def build_encoding(captures) when length(captures) > 0 do
+     #Enum.map_join or...collectables to the rescue:
+     Enum.into(captures, [], fn(capture) ->
+       encode_characters(capture)
+     end)
+     |> to_string
+  end
+  def build_encoding([]) do
     ""
   end
 
-  defp encode_string(string) do
-    code_points = String.codepoints(word)
-    first = List.first(code_points)
-
-    count_letter(code_points, first, 1, 0)
+  defp encode_characters([letters, letter]) do
+    ~s(#{String.length(letters)}#{letter})
   end
 
-  defp count_letter([head|tail], letter, count, current_index) do
-    cond do
-      head = letter ->
-        count_letter(tail, letter, count + 1, current_index + 1)
-      true ->
-        #
-    end
+  defp build_decoding(encodings) do
+    Enum.into(encodings, [], fn(encoding) ->
+      decode_characters(encoding)
+    end)
+    |> to_string
+  end
 
-
+  defp decode_characters([encoding, count, letter]) do
+    String.duplicate(letter, String.to_integer(count))
   end
 end
