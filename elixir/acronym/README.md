@@ -48,7 +48,3 @@ see the [help page](http://exercism.io/languages/elixir).
 ## Source
 
 Julien Vanier [https://github.com/monkbroc](https://github.com/monkbroc)
-
-## Submitting Incomplete Problems
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

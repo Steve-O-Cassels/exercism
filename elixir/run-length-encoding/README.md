@@ -18,8 +18,6 @@ the compressed data, which makes it a lossless data compression.
 "AABCCCDEEEE"  ->  "2AB3CD4E"  ->  "AABCCCDEEEE"
 ```
 
-For simplicity, you can assume that the unencoded string will only contain
-the letters A through Z.
 ## Running tests
 
 Execute the tests with:
@@ -60,7 +58,3 @@ see the [help page](http://exercism.io/languages/elixir).
 ## Source
 
 Wikipedia [https://en.wikipedia.org/wiki/Run-length_encoding](https://en.wikipedia.org/wiki/Run-length_encoding)
-
-## Submitting Incomplete Problems
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

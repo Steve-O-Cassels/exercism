@@ -1,6 +1,6 @@
 # Word Count
 
-Given a phrase, count the occurrences of each word in that phrase.
+Write a program that given a phrase can count the occurrences of each word in that phrase.
 
 For example for the input `"olly olly in come free"`
 
@@ -51,8 +51,4 @@ see the [help page](http://exercism.io/languages/elixir).
 
 ## Source
 
-This is a classic toy problem, but we were reminded of it by seeing it in the Go Tour.
-
-## Submitting Incomplete Problems
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-
+This is a classic toy problem, but we were reminded of it by seeing it in the Go Tour. [view source]()

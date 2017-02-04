@@ -1,5 +1,5 @@
 if !System.get_env("EXERCISM_TEST_EXAMPLES") do
-  Code.load_file("hello_world.exs", __DIR__)
+  Code.load_file("hello_world.exs")
 end
 
 ExUnit.start
@@ -12,12 +12,12 @@ defmodule HelloWorldTest do
     assert HelloWorld.hello() == "Hello, World!"
   end
 
-  # @tag :pending
+  #@tag :pending
   test "says hello sample name" do
     assert HelloWorld.hello("Alice") == "Hello, Alice!"
   end
 
-  # @tag :pending
+  #@tag :pending
   test "says hello other sample name" do
     assert HelloWorld.hello("Bob") == "Hello, Bob!"
   end
