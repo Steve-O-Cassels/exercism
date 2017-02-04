@@ -31,8 +31,8 @@ defmodule Bob do
     is_upper_case = fn(x) -> String.upcase(x) == x end
 
     !is_all_number.(cleaned) &&
-    is_upper_case.(cleaned) &&
-    !questioning?(cleaned)
+    !questioning?(cleaned) &&
+    is_upper_case.(cleaned)
   end
 
   defp strip_char(input, char) do
