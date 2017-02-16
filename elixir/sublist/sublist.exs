@@ -6,7 +6,6 @@ defmodule Sublist do
   def compare([nil], []), do: :superlist
   def compare([],[nil]), do: :sublist
   def compare(a,b) when a == b, do: :equal
-  def compare(a,b) when a != b and length(b) == 1, do: :unequal
   def compare(a,b) when a != b and length(a) == length(b), do: :unequal
   def compare(a,b) when length(a) > length(b) do
     case is_sublist(b,a) do
