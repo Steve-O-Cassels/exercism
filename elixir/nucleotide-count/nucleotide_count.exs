@@ -15,7 +15,7 @@ defmodule NucleotideCount do
   @spec count([char], char) :: non_neg_integer
   def count([], nucleotide), do: 0
   def count(strand, nucleotide) do
-      Enum.count(strand, fn(x) -> x == nucleotide end)
+      Enum.count(strand, &(&1 == nucleotide))
   end
 
   @doc """
@@ -31,7 +31,7 @@ defmodule NucleotideCount do
     acc = %{?A => 0, ?T => 0, ?C => 0, ?G => 0}
     Enum.reduce(strand, acc, fn(nuc, acc) ->
       with :true <= nuc in @nucleotides do
-        Map.put(acc, nuc, count(strand, nuc))   
+        Map.put(acc, nuc, count(strand, nuc))
       end
     end)
   end
