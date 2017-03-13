@@ -73,7 +73,19 @@ defmodule Phone do
   """
   @spec area_code(String.t) :: String.t
   def area_code(raw) do
-    raw
+    digits = raw
+    |> String.codepoints
+    |> Enum.slice(0,4)
+
+    print_area_code = fn(digits, start, amount) ->
+      Enum.slice(digits, start,amount) |> Enum.join
+    end
+
+    with ["1","1"] <- Enum.slice(digits, 0,2) do
+      print_area_code.(digits,1,3)
+    else
+      ["1",_] -> print_area_code.(digits,0,3)
+    end
   end
 
   @doc """
@@ -95,6 +107,21 @@ defmodule Phone do
   """
   @spec pretty(String.t) :: String.t
   def pretty(raw) do
-    raw
+    area_code = area_code(raw)
+    digits = raw |> String.codepoints
+
+    pretty_print = fn(digits, area_code) ->
+      {first, second} = Enum.split(digits,3)
+      "(" <> area_code <> ") " <> Enum.join(first) <> "-" <> Enum.join(second)
+    end
+
+    with ["1","1"] <- Enum.slice(digits, 0,2) do
+      {_, number} = Enum.split(digits, 4)
+      pretty_print.(number, area_code)
+    else
+      ["1",_] ->
+        {_, number} = Enum.split(digits, 3)
+        pretty_print.(number, area_code)
+    end
   end
 end
