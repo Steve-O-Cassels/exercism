@@ -8,49 +8,34 @@ defmodule RunLengthEncoder do
   """
   @spec encode(String.t) :: String.t
   def encode(string) do
-    split_to_constituent_letters(string)
-    |> build_encoding
+    string
+    |> String.to_charlist
+    |> Enum.chunk_by(&(&1))
+    |> encode_letter_chunks
   end
 
   @spec decode(String.t) :: String.t
   def decode(string) do
     split_to_constituent_encodings(string)
     |> build_decoding
-  end
-
-  defp split_to_constituent_letters(string) do
-    capture_repeated_chars = ~r{(.)\1*}
-    Regex.scan(capture_repeated_chars, string)
-  end
-
-  defp split_to_constituent_encodings(string) do
-    capture_encoded_letter = ~r/(\d+)([A-Z]{1})/
-    Regex.scan(capture_encoded_letter,string)
-  end
-
-  def build_encoding(captures) when length(captures) > 0 do
-     #Enum.map_join or...collectables to the rescue:
-     Enum.into(captures, [], fn(capture) ->
-       encode_characters(capture)
-     end)
-     |> to_string
-  end
-  def build_encoding([]) do
-    ""
-  end
-
-  defp encode_characters([letters, letter]) do
-    ~s(#{String.length(letters)}#{letter})
-  end
-
-  defp build_decoding(encodings) do
-    Enum.into(encodings, [], fn(encoding) ->
-      decode_characters(encoding)
-    end)
     |> to_string
   end
 
-  defp decode_characters([encoding, count, letter]) do
-    String.duplicate(letter, String.to_integer(count))
+  defp split_to_constituent_encodings(string) do
+   capture_encoded_letter = ~r/(\d+)([A-Z]{1})/
+   Regex.scan(capture_encoded_letter,string)
+  end
+
+  defp encode_letter_chunks(letter_chunks) do
+    letter_chunks
+    |> Enum.reduce("", fn(chunk, acc) ->
+       acc <> ~s(#{length(chunk)}#{<<hd(chunk)>>})
+     end)
+  end
+
+  defp build_decoding(encodings) do
+    Enum.into(encodings, [], fn([_, count, letter]) ->
+      String.duplicate(letter, String.to_integer(count))
+    end)
   end
 end
