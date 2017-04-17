@@ -112,7 +112,7 @@ defmodule Phone do
 
     pretty_print = fn(digits, area_code) ->
       {first, second} = Enum.split(digits,3)
-      "(" <> area_code <> ") " <> Enum.join(first) <> "-" <> Enum.join(second)
+      "(#{area_code}) #{Enum.join(first)}-#{Enum.join(second)}"
     end
 
     with ["1","1"] <- Enum.slice(digits, 0,2) do

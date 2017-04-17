@@ -16,7 +16,8 @@ defmodule RunLengthEncoder do
 
   @spec decode(String.t) :: String.t
   def decode(string) do
-    split_to_constituent_encodings(string)
+    string
+    |> split_to_constituent_encodings
     |> build_decoding
     |> to_string
   end
